@@ -5,7 +5,7 @@ function getExtension($path) {
 	return pathinfo($path, PATHINFO_EXTENSION);
 }
 
-if (isset($_FILES['file']) && !empty($_FILES['file'])) {
+if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
 	$file = $_FILES['file'];
 	//var_dump($file);
 	$outfile_name = 'out';
@@ -13,7 +13,7 @@ if (isset($_FILES['file']) && !empty($_FILES['file'])) {
 		$outfile_name .= '.'.$ext;
 	}
 	//var_dump($outfile_name);
-	if (!$out_handler = fopen($outfile_name,'w')) {
+	if (!$out_handler = fopen($outfile_name,'wb')) {
 		die('Smth wrong with creating file');
 	}
 	
@@ -23,7 +23,8 @@ if (isset($_FILES['file']) && !empty($_FILES['file'])) {
 	}
 	$offset = -1;
 	while (fseek($tmp_handle, $offset, SEEK_END) != -1) {
-		if (!$data = fread($tmp_handle,1)) {
+		$data = fread($tmp_handle,1);
+		if (FALSE === $data) {
 			die('Error while reading tmp file');
 		}
 		fwrite($out_handler,$data);
