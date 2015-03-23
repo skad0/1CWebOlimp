@@ -18,13 +18,16 @@ if (isset($_FILES['file']) && !empty($_FILES['file'])) {
 	}
 	
 	// working with recerse
-	$tmp_handle = fopen($file['tmp_name']);
-	$offset = 0;
+	if (!$tmp_handle = fopen($file['tmp_name'],'rb')) {
+		die('Error while opening tmp');
+	}
+	$offset = -1;
 	while (fseek($tmp_handle, $offset, SEEK_END) != -1) {
 		if (!$data = fread($tmp_handle,1)) {
 			die('Error while reading tmp file');
 		}
 		fwrite($out_handler,$data);
+		$offset-=1;
 	}
 	fclose($tmp_name);
 	fclose($out_handler);
