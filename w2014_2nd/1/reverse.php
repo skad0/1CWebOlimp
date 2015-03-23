@@ -1,5 +1,4 @@
 <?php
-phpinfo();
 $outfile_path = __DIR__.'/';
 var_dump($_FILES);
 function getExtension($path) {
