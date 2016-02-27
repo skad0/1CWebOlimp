@@ -1,0 +1,3 @@
+ноль;zero
+один;one;un
+два;two;deux
